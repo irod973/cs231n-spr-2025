@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/github/license/irod973/cs231n-spr-2025)](https://github.com/irod973/cs231n-spr-2025/blob/main/LICENCE.txt)
 [![Release](https://img.shields.io/github/v/release/irod973/cs231n-spr-2025)](https://github.com/irod973/cs231n-spr-2025/releases)
 
-# Description	
+# Description
 
 Notes from CS231n study.
 
@@ -15,9 +15,9 @@ Notes from CS231n study.
 # Installation
 
 Initialize your project with the provided `just` command.
-```bash	
-# Install dependencies and pre-commit hooks	
-uv run just install	
+```bash
+# Install dependencies and pre-commit hooks
+uv run just install
 ```
 # Usage
 
@@ -29,25 +29,25 @@ uv run cs231n-spr-2025
 ```
 
 Test the example API with Docker:
-```bash	
-uv add fastapi uvicorn	
+```bash
+uv add fastapi uvicorn
 uv run just package
 
-# Invoke docker compose	
+# Invoke docker compose
 uv run just docker-compose
 
-# Or run with docker compose	
-docker compose up --build	
+# Or run with docker compose
+docker compose up --build
 
-# Or run with docker	
-# Note: specify platform if running on Apple M chip 	
-docker build --platform linux/amd64 -t cs231n-spr-2025-image -f Dockerfile .	
-docker run -it --platform linux/amd64 --name cs231n-spr-2025-ctr -p 8000:8000 cs231n-spr-2025-image	
+# Or run with docker
+# Note: specify platform if running on Apple M chip
+docker build --platform linux/amd64 -t cs231n-spr-2025-image -f Dockerfile .
+docker run -it --platform linux/amd64 --name cs231n-spr-2025-ctr -p 8000:8000 cs231n-spr-2025-image
 ```
 
 Test the API using the local environment:
 ```bash
-cd src	
+cd src
 uv run uvicorn example_app.main:app --reload
 ```
 
@@ -63,4 +63,3 @@ Uv Integration: Effortless dependency management and packaging with [uv](https:/
 * **uv+just Task Automation:** [just](https://github.com/casey/just) commands to simplify development workflows such as cleaning, installing, formatting, checking, building, documenting and running the project.
 * **Comprehensive Documentation:** [pdoc](https://pdoc.dev/) generates API documentation, and Markdown files provide clear usage instructions.
 * **GitHub Workflow Integration:** Continuous integration and deployment workflows are set up using [GitHub Actions](https://github.com/features/actions), automating testing, checks, and publishing.
-
