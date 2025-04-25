@@ -1,0 +1,103 @@
+# https://docs.astral.sh/uv/reference/settings/
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+
+# PROJECT
+
+[project]
+name = "cs231n-spr-2025"
+version = "0.1.0"
+description = "Notes from CS231n study"
+authors = [{ name = "irod973" }]
+readme = "README.md"
+license = "NA"
+requires-python = ">=3.12"
+dependencies = [
+    "hatchling>=1.27.0",
+]
+
+# LINKS
+
+[project.urls]
+Homepage = "https://github.com/irod973/cs231n-spr-2025"
+Documentation = "https://irod973.github.io/cs231n-spr-2025/"
+Repository = "https://github.com/irod973/cs231n-spr-2025e"
+"Bug Tracker" = "https://github.com/irod973/cs231n-spr-2025/issues"
+
+# SCRIPTS
+
+[project.scripts]
+cs231n-spr-2025 = "cs231n_spr_2025.scripts:main"
+
+# DEPENDENCIES
+
+[dependency-groups]
+check = [
+    "bandit>=1.8.3",
+    "coverage>=7.6.12",
+    "mypy>=1.15.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.0.0",
+    "pytest-mock>=3.14.0",
+    "pytest-xdist>=3.6.1",
+    "ruff>=0.9.9",
+]
+commit = ["commitizen>=4.4.1", "pre-commit>=4.1.0"]
+dev = ["rust-just>=1.39.0"]
+doc = ["pdoc>=15.0.1"]
+
+# TOOLS
+
+[tool.uv]
+default-groups = ["check", "commit", "dev", "doc"]
+
+[tool.bandit]
+targets = ["src"]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+version_scheme = "pep440"
+version_provider = "pep621"
+update_changelog_on_bump = true
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+omit = ["__main__.py"]
+
+[tool.mypy]
+pretty = true
+python_version = "3.13"
+check_untyped_defs = true
+ignore_missing_imports = true
+strict = false
+disable_error_code = ["import-untyped", "disallow-untyped-decorators"]
+# See https://mypy.readthedocs.io/en/stable/config_file.html#untyped-definitions-and-calls
+
+[tool.pytest.ini_options]
+addopts = "--verbosity=2"
+pythonpath = ["src"]
+
+[tool.ruff]
+fix = true
+indent-width = 4
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["D100", "D103"]
+
+# SYSTEMS
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
