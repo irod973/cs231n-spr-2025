@@ -9,6 +9,6 @@ COPY ./src /app
 ENV PYTHONPATH="${PYTHONPATH}:/app"
 WORKDIR /app
 
-CMD ["cs231n-spr-2025", "--help"]
+# CMD ["cs231n-spr-2025", "--help"]
 # Example command
-# CMD ["uvicorn", "example_app.main:app", "--host", "0.0.0.0"]
+CMD ["uvicorn", "example_app.main:app", "--host", "0.0.0.0", "--reload"]
