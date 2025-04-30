@@ -10,15 +10,17 @@ class Data(NamedTuple):
     X: npt.NDArray[np.float32]
     y: npt.NDArray[np.uint8]
 
+
 # Constants
 
 N = 100  # number of points per class
 D = 2  # dimensionality
 K = 3  # number of classes
 
+
 def generate_data() -> Data:
-    X = np.zeros((N*K, D))
-    y = np.zeros(N*K, dtype="uint8")
+    X = np.zeros((N * K, D))
+    y = np.zeros(N * K, dtype="uint8")
     for j in range(K):
         ix = range(N * j, N * (j + 1))
         r = np.linspace(0.0, 1, N)  # radius
@@ -27,12 +29,16 @@ def generate_data() -> Data:
         y[ix] = j
     return Data(X=X, y=y)
 
+
 def visualize_data(data: Data) -> None:
     # lets visualize the data:
     plt.scatter(data.X[:, 0], data.X[:, 1], c=data.y, s=40, cmap=plt.cm.Spectral)
     plt.show()
 
-def plot_linear_classifier(data: Data, W: npt.NDArray[np.float64], b: npt.NDArray[np.float64]) -> None:
+
+def plot_linear_classifier(
+    data: Data, W: npt.NDArray[np.float64], b: npt.NDArray[np.float64]
+) -> None:
     # Some magic function from the example, don't ask me to recreate it
     h = 0.02
     x_min, x_max = data.X[:, 0].min() - 1, data.X[:, 0].max() + 1
@@ -48,7 +54,14 @@ def plot_linear_classifier(data: Data, W: npt.NDArray[np.float64], b: npt.NDArra
     plt.ylim(yy.min(), yy.max())
     plt.show()
 
-def plot_twolayer_net(data: Data, W1: npt.NDArray[np.float64], b1: npt.NDArray[np.float64], W2: npt.NDArray[np.float64], b2: npt.NDArray[np.float64]) -> None:
+
+def plot_twolayer_net(
+    data: Data,
+    W1: npt.NDArray[np.float64],
+    b1: npt.NDArray[np.float64],
+    W2: npt.NDArray[np.float64],
+    b2: npt.NDArray[np.float64],
+) -> None:
     # Some magic function from the example, don't ask me to recreate it
     h = 0.02
     x_min, x_max = data.X[:, 0].min() - 1, data.X[:, 0].max() + 1
@@ -64,17 +77,29 @@ def plot_twolayer_net(data: Data, W1: npt.NDArray[np.float64], b1: npt.NDArray[n
     plt.ylim(yy.min(), yy.max())
     plt.show()
 
+
 def preprocess_data(data: Data) -> Data:
     # Normally we would want to preprocess the dataset so that each feature has zero mean and unit standard deviation,
     # but in this case the features are already in a nice range from -1 to 1, so we skip this step.
     return data
 
-def init_params(dim: int, num_classes: int) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
+
+def init_params(
+    dim: int, num_classes: int
+) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
     W = 0.01 * np.random.randn(dim, num_classes)
-    b = np.zeros((1,num_classes))
+    b = np.zeros((1, num_classes))
     return W, b
 
-def train_linear_classifier(data: Data, dim: int = D, num_classes: int = K, num_iterations: int = 200, step_size: float = 1e-0, reg: float = 1e-3) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
+
+def train_linear_classifier(
+    data: Data,
+    dim: int = D,
+    num_classes: int = K,
+    num_iterations: int = 200,
+    step_size: float = 1e-0,
+    reg: float = 1e-3,
+) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
     W, b = init_params(dim=dim, num_classes=num_classes)
     logger.debug(f"{W.shape=} {W.dtype=} {b.shape=} {b.dtype=}")
     num_examples = data.X.shape[0]
@@ -89,8 +114,8 @@ def train_linear_classifier(data: Data, dim: int = D, num_classes: int = K, num_
         correct_logprobs = -np.log(probs[range(num_examples), data.y])
 
         # Compute the loss
-        data_loss = np.sum(correct_logprobs)/num_examples
-        reg_loss = 0.5*reg*np.sum(W*W)
+        data_loss = np.sum(correct_logprobs) / num_examples
+        reg_loss = 0.5 * reg * np.sum(W * W)
         loss = data_loss + reg_loss
         if i % 10 == 0:
             logger.info(f"iteration {i}: {loss=}")
@@ -103,7 +128,7 @@ def train_linear_classifier(data: Data, dim: int = D, num_classes: int = K, num_
 
         dW = np.dot(data.X.T, dscores)
         db = np.sum(dscores, axis=0, keepdims=True)
-        dW += reg*W  # the regularization gradient
+        dW += reg * W  # the regularization gradient
 
         # Parameter update
         W += -step_size * dW
@@ -116,7 +141,16 @@ def train_linear_classifier(data: Data, dim: int = D, num_classes: int = K, num_
 
     return W, b
 
-def train_twolayer_network(data: Data, hidden_layer_size: int, dim: int = D, num_classes: int = K, num_iterations: int = 200, step_size: float = 1e-0, reg: float = 1e-3) -> list[npt.NDArray[np.float64]]:
+
+def train_twolayer_network(
+    data: Data,
+    hidden_layer_size: int,
+    dim: int = D,
+    num_classes: int = K,
+    num_iterations: int = 200,
+    step_size: float = 1e-0,
+    reg: float = 1e-3,
+) -> list[npt.NDArray[np.float64]]:
     # Initialize params
     W1 = 0.01 * np.random.randn(dim, hidden_layer_size)
     b1 = np.zeros((1, hidden_layer_size))
@@ -129,17 +163,17 @@ def train_twolayer_network(data: Data, hidden_layer_size: int, dim: int = D, num
         # Compute the scores - using relu activation for hidden layer
         hidden_layer = np.maximum(0, np.dot(data.X, W1) + b1)  # elementwise max
         scores = np.dot(hidden_layer, W2) + b2  # [N x K]
-        assert scores.shape == (num_examples, num_classes)
+        logger.debug(f"{scores.shape == (num_examples, num_classes)=}")
 
         # Compute the class probabilities
         exp_scores = np.exp(scores)
         probs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
-        assert probs.shape == (num_examples, num_classes)
+        logger.debug(f"{probs.shape == (num_examples, num_classes)=}")
 
         # Compute the loss
-        correct_logprobs = -np.log(probs[range(num_examples),data.y])
-        data_loss = np.sum(correct_logprobs)/num_examples
-        reg_loss = 0.5*reg*np.sum(W1*W1) + 0.5*reg*np.sum(W2*W2)
+        correct_logprobs = -np.log(probs[range(num_examples), data.y])
+        data_loss = np.sum(correct_logprobs) / num_examples
+        reg_loss = 0.5 * reg * np.sum(W1 * W1) + 0.5 * reg * np.sum(W2 * W2)
         loss = data_loss + reg_loss
         if i % 1000 == 0:
             logger.info(f"iteration {i}: {loss=}")
@@ -161,8 +195,8 @@ def train_twolayer_network(data: Data, hidden_layer_size: int, dim: int = D, num
         db1 = np.sum(dhidden, axis=0, keepdims=True)
 
         # Add regularization gradients
-        dW2 += reg*W2
-        dW1 += reg*W1
+        dW2 += reg * W2
+        dW1 += reg * W1
 
         # Parameter update
         W1 += -step_size * dW1
@@ -190,15 +224,23 @@ def main() -> None:
     step_size = 1e-0
     reg = 1e-3  # regularization strength
 
-    W, b = train_linear_classifier(data=data,
-                                   dim=D, num_classes=K, step_size=step_size, reg=reg)
+    W, b = train_linear_classifier(data=data, dim=D, num_classes=K, step_size=step_size, reg=reg)
     # plot_linear_classifier(data, W, b)
 
     # The linear classifier is not great, let's try a neural network instead
     hidden_layer_size = 100
-    W1, b1, W2, b2 = train_twolayer_network(data=data, dim=D, num_classes=K, step_size=step_size, reg=reg, num_iterations=10000, hidden_layer_size=hidden_layer_size)
+    W1, b1, W2, b2 = train_twolayer_network(
+        data=data,
+        dim=D,
+        num_classes=K,
+        step_size=step_size,
+        reg=reg,
+        num_iterations=10000,
+        hidden_layer_size=hidden_layer_size,
+    )
 
     plot_twolayer_net(data, W1, b1, W2, b2)
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     main()
