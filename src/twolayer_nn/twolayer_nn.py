@@ -47,7 +47,7 @@ def plot_linear_classifier(
     Z = np.dot(np.c_[xx.ravel(), yy.ravel()], W) + b
     Z = np.argmax(Z, axis=1)
     Z = Z.reshape(xx.shape)
-    fig = plt.figure()
+    # fig = plt.figure()
     plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral, alpha=0.8)
     plt.scatter(data.X[:, 0], data.X[:, 1], c=data.y, s=40, cmap=plt.cm.Spectral)
     plt.xlim(xx.min(), xx.max())
@@ -70,7 +70,7 @@ def plot_twolayer_net(
     Z = np.dot(np.maximum(0, np.dot(np.c_[xx.ravel(), yy.ravel()], W1) + b1), W2) + b2
     Z = np.argmax(Z, axis=1)
     Z = Z.reshape(xx.shape)
-    fig = plt.figure()
+    # fig = plt.figure()
     plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral, alpha=0.8)
     plt.scatter(data.X[:, 0], data.X[:, 1], c=data.y, s=40, cmap=plt.cm.Spectral)
     plt.xlim(xx.min(), xx.max())
