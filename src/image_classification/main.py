@@ -35,6 +35,7 @@ model_names = sorted(
 model_names_str = " | ".join(model_names)
 logger.debug(f"Supported models: {model_names_str}")
 
+
 def parse_args() -> argparse.Namespace:
     """Process cli arguments"""
     parser = argparse.ArgumentParser(description="PyTorch ImageNet Training")
@@ -82,8 +83,8 @@ def parse_args() -> argparse.Namespace:
         type=int,
         metavar="N",
         help="mini-batch size (default: 256), this is the total "
-             "batch size of all GPUs on the current node when "
-             "using Data Parallel or Distributed Data Parallel",
+        "batch size of all GPUs on the current node when "
+        "using Data Parallel or Distributed Data Parallel",
     )
     parser.add_argument(
         "--lr",
@@ -134,6 +135,6 @@ def parse_args() -> argparse.Namespace:
     args = parser.parse_args()
     return args
 
-if __name__=="__main__":
-    args = parse_args()
 
+if __name__ == "__main__":
+    args = parse_args()

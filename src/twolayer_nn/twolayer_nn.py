@@ -1,3 +1,5 @@
+# type: ignore
+
 from typing import NamedTuple
 
 import matplotlib.pyplot as plt

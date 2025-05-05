@@ -1,3 +1,4 @@
+# type: ignore
 import argparse
 import os
 import random
@@ -216,7 +217,7 @@ def main_worker(gpu, ngpus_per_node, args):
         if torch.cuda.is_available():
             if args.gpu is not None:
                 torch.cuda.set_device(args.gpu)
-                model.cuda(args.gpu)
+                model.cuda(args.gpu)  # type: ignore
                 # When using a single GPU per process and per
                 # DistributedDataParallel, we need to divide the batch size
                 # ourselves based on the total number of GPUs of the current node.
@@ -224,7 +225,7 @@ def main_worker(gpu, ngpus_per_node, args):
                 args.workers = int((args.workers + ngpus_per_node - 1) / ngpus_per_node)
                 model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[args.gpu])
             else:
-                model.cuda()
+                model.cuda()  # type: ignore
                 # DistributedDataParallel will divide and allocate batch_size to all
                 # available GPUs if device_ids are not set
                 model = torch.nn.parallel.DistributedDataParallel(model)
@@ -237,8 +238,8 @@ def main_worker(gpu, ngpus_per_node, args):
     else:
         # DataParallel will divide and allocate batch_size to all available GPUs
         if args.arch.startswith("alexnet") or args.arch.startswith("vgg"):
-            model.features = torch.nn.DataParallel(model.features)
-            model.cuda()
+            model.features = torch.nn.DataParallel(model.features)  # type: ignore
+            model.cuda()  # type: ignore
         else:
             model = torch.nn.DataParallel(model).cuda()
 
@@ -266,11 +267,11 @@ def main_worker(gpu, ngpus_per_node, args):
         if os.path.isfile(args.resume):
             print("=> loading checkpoint '{}'".format(args.resume))
             if args.gpu is None:
-                checkpoint = torch.load(args.resume)
+                checkpoint = torch.load(args.resume)  # nosec
             elif torch.cuda.is_available():
                 # Map model to be loaded to specified single gpu.
                 loc = "cuda:{}".format(args.gpu)
-                checkpoint = torch.load(args.resume, map_location=loc)
+                checkpoint = torch.load(args.resume, map_location=loc)  # nosec
             args.start_epoch = checkpoint["epoch"]
             best_acc1 = checkpoint["best_acc1"]
             if args.gpu is not None:

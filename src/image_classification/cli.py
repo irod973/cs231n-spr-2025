@@ -2,9 +2,9 @@ import argparse
 
 import torchvision.models as models
 from loguru import logger
-from omegaconf import OmegaConf
+from omegaconf import DictConfig, OmegaConf
 
-from image_classification.config import load_config
+from image_classification.conf import load_config
 
 # Get available model architectures from torchvision
 model_names = sorted(
@@ -131,7 +131,7 @@ def parse_args() -> argparse.Namespace:
     return args
 
 
-def parse_args_and_config() -> tuple[argparse.Namespace, OmegaConf]:
+def parse_args_and_config() -> tuple[argparse.Namespace, DictConfig]:
     """Parse command-line arguments and load configuration.
 
     Returns:
@@ -183,7 +183,7 @@ def parse_args_and_config() -> tuple[argparse.Namespace, OmegaConf]:
     # Apply overrides if any exist
     if overrides:
         cli_conf = OmegaConf.from_dotlist(overrides)
-        config = OmegaConf.merge(config, cli_conf)
+        config: DictConfig = OmegaConf.merge(config, cli_conf)  # type: ignore
 
     logger.info(f"Loaded configuration: \n{OmegaConf.to_yaml(config)}")
 
