@@ -1,5 +1,8 @@
 # https://git-scm.com/docs/gitignore
 
+# Data
+**/data/
+
 # Build
 /dist/
 /build/

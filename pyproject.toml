@@ -50,10 +50,48 @@ commit = ["commitizen>=4.4.1", "pre-commit>=4.1.0"]
 dev = ["rust-just>=1.39.0"]
 doc = ["pdoc>=15.0.1"]
 
+[project.optional-dependencies]
+cpu = [
+  "torch>=2.5.0",
+  "torchvision>=0.20.0",
+]
+cu121 = [
+  "torch>=2.5.0",
+  "torchvision>=0.20.0",
+]
+
 # TOOLS
 
 [tool.uv]
 default-groups = ["check", "commit", "dev", "doc"]
+
+# For details on configuring Torch options for uv, see https://docs.astral.sh/uv/guides/integration/pytorch/#configuring-accelerators-with-optional-dependencies
+conflicts = [
+  [
+    { extra = "cpu" },
+    { extra = "cu121" },
+  ],
+]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cu121", extra = "cu121" },
+]
+torchvision = [
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cu121", extra = "cu121" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu121"
+url = "https://download.pytorch.org/whl/cu121"
+explicit = true
 
 [tool.bandit]
 targets = ["src"]
