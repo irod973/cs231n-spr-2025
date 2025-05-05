@@ -10,7 +10,7 @@ See the root README for general details like available helper commands.
 
 Install the environment (if you haven't already) - see root README for more details.
 
-For handling the Torch dependency, we 
+For handling the Torch dependency, we
 ```
 uv install --extra {cpu,gpu}
 ```
@@ -27,7 +27,7 @@ The ImageNet10 dataset is designed specifically for CI tests, sanity checks, and
 ImageNet10 contains just 20 images (2 per class) from the first 10 classes of ImageNet
 ```
 
-Download the compressed data below to your desired 
+Download the compressed data below to your desired
 https://github.com/ultralytics/yolov5/releases/download/v1.0/imagenet10.zip
 https://github.com/ultralytics/yolov5/releases/download/v1.0/imagenet100.zip
 https://github.com/ultralytics/yolov5/releases/download/v1.0/imagenet1000.zip
@@ -55,12 +55,17 @@ Download the ImageNet dataset from http://www.image-net.org/
 
 Then, move and extract the training and validation images to labeled subfolders, using the `extract_ILSVRC.sh` shell script
 
-### Training
+### Training - Updated Script
+
+
+
+### Training - Original Script
+
+The `original_main.py` is successfully recreated in this environment.
 
 To train a model, run `main.py` with the desired model architecture and the path to the ImageNet dataset, e.g.
-
 ```
-uv run python main.py -a resnet18 --epochs 10 [imagenet-folder with train and val folders] 
+uv run python main.py -a resnet18 --epochs 10 [imagenet-folder with train and val folders]
 ```
 
 There is also a `dummy` flag for testing the script:
@@ -78,7 +83,9 @@ model architecture: alexnet | convnext_base | convnext_large | convnext_small | 
                         vgg11_bn | vgg13 | vgg13_bn | vgg16 | vgg16_bn | vgg19 | vgg19_bn | vit_b_16 | vit_b_32 | vit_l_16 | vit_l_32 | wide_resnet101_2 | wide_resnet50_2 (default: resnet18)
 ```
 
-### main.py
+### Original script
+
+The original ``
 
 ```
 usage: main.py [-h] [-a ARCH] [-j N] [--epochs N] [--start-epoch N] [-b N] [--lr LR] [--momentum M] [--wd W] [-p N] [--resume PATH] [-e] [--pretrained] [--world-size WORLD_SIZE] [--rank RANK]

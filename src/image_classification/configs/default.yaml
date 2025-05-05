@@ -1,0 +1,16 @@
+data:
+  data_dir: data/imagenet10
+  workers: 8
+  batch_size: 256
+
+model:
+  arch: resnet50
+  pretrained: true
+
+training:
+  epochs: 30
+  lr: 0.01
+  print_freq: 20
+
+distributed:
+  multiprocessing_distributed: true
