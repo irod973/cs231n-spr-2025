@@ -130,6 +130,7 @@ def parse_args() -> argparse.Namespace:
     args = parser.parse_args()
     return args
 
+
 def parse_args_and_config() -> tuple[argparse.Namespace, OmegaConf]:
     """Parse command-line arguments and load configuration.
 

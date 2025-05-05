@@ -57,7 +57,11 @@ Then, move and extract the training and validation images to labeled subfolders,
 
 ### Training - Updated Script
 
+Configs are managed with OmegaConf. The entrypoint script will load configs from the YAML first and override any parameters specified in the command line, e.g.
 
+```
+uv run python cli.py --config configs/default.yaml --data-dir data/override_dir
+```
 
 ### Training - Original Script
 

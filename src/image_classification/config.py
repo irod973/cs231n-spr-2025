@@ -1,4 +1,3 @@
-import argparse
 from dataclasses import dataclass, field
 
 import omegaconf
@@ -87,4 +86,3 @@ def save_config(config: omegaconf.DictConfig, path: str) -> None:
         path: Path to save the configuration
     """
     OmegaConf.save(config, path)
-
